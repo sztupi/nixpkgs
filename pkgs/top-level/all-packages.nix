@@ -12282,6 +12282,10 @@ let
 
   beep = callPackage ../misc/beep { };
 
+  brother = {
+    dcp6690cw = callPackage_i686 ../misc/cups/drivers/brother/dcp6690cw.nix { };
+  };
+
   cups = callPackage ../misc/cups { libusb = libusb1; };
 
   cups_pdf_filter = callPackage ../misc/cups/pdf-filter.nix { };

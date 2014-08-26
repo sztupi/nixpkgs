@@ -1,0 +1,8 @@
+--- a/src/usr/local/Brother/Printer/dcp6690cw/lpd/psconvertij2	2014-08-22 20:47:15.599621825 +0100
++++ b/src/usr/local/Brother/Printer/dcp6690cw/lpd/psconvertij2	2014-08-24 16:52:34.086818866 +0100
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/usr/bin/env bash
+ #
+ # psconertij [Paper_inf] [rc_file]
+ # Copyright (C) 2003 Brother. Industries, Ltd.

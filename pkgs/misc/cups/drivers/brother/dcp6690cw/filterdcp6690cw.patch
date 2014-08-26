@@ -1,0 +1,15 @@
+--- a/src/usr/local/Brother/Printer/dcp6690cw/lpd/filterdcp6690cw	2014-08-22 20:47:15.599621825 +0100
++++ b/src/usr/local/Brother/Printer/dcp6690cw/lpd/filterdcp6690cw	2014-08-22 21:17:14.743466255 +0100
+@@ -18,10 +18,11 @@
+ # Place, Suite 330, Boston, MA  02111-1307  USA
+ #
+ 
++PATH=$PATH:@pkgs.coreutils@/bin
+ PRINTER="dcp6690cw"
+ PRINTER_TMP=$(echo $PRINTER | sed -e 's/ //g' -e 's/-//g')
+ 
+-BR_PRT_PATH=/usr/local/Brother/Printer/${PRINTER}
++BR_PRT_PATH=@out@/usr/local/Brother/Printer/${PRINTER}
+ RCFILE=`eval echo $BR_PRT_PATH/inf/brPRINTERrc | eval sed 's/PRINTER/"$PRINTER_TMP"/'`
+ PAPER_INF=$BR_PRT_PATH/inf/paperinfij2
+ PSCONV=$BR_PRT_PATH/lpd/psconvertij2
