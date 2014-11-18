@@ -43,7 +43,7 @@
 #
 # For most packages, however, we keep only one version, and use default.nix.
 
-{ pkgs, newScope, ghc, modifyPrio ? (x : x)
+{ pkgs, newScope, ghc, cabalPackage, ghcWrapperPackage, modifyPrio ? (x : x)
 , enableLibraryProfiling ? false
 , enableSharedLibraries ? pkgs.stdenv.lib.versionOlder "7.7" ghc.version
 , enableSharedExecutables ? pkgs.stdenv.lib.versionOlder "7.7" ghc.version
@@ -74,7 +74,7 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
                                # refers to the function argument at the
                                # top of this file.
 
-  ghc = callPackage ../development/compilers/ghc/wrapper.nix {
+  ghc = callPackage ghcWrapperPackage {
     ghc = ghc; # refers to ghcPlain
   };
 
@@ -94,7 +94,7 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
   # This is the Cabal builder, the function we use to build most Haskell
   # packages. It isn't the Cabal library, which is spelled "Cabal".
 
-  cabal = callPackage ../build-support/cabal {
+  cabal = callPackage cabalPackage {
     Cabal = null;               # prefer the Cabal version shipped with the compiler
     hscolour = self.hscolourBootstrap;
     inherit enableLibraryProfiling enableCheckPhase
@@ -911,7 +911,12 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
 
   ghcServer = callPackage ../development/libraries/haskell/ghc-server {};
 
-  ghcjsDom = callPackage ../development/libraries/haskell/ghcjs-codemirror {};
+  ghcjs = callPackage ../development/tools/haskell/ghcjs {
+    Cabal = self.Cabal_1_18_1_3;
+    network = self.network_2_6_0_2;
+  };
+
+  ghcjsDom = callPackage ../development/libraries/haskell/ghcjs-dom {};
 
   ghcjsCodemirror = callPackage ../development/libraries/haskell/ghcjs-codemirror {};
 
@@ -1487,7 +1492,9 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
 
   lazysmallcheck = callPackage ../development/libraries/haskell/lazysmallcheck {};
 
-  lens = callPackage ../development/libraries/haskell/lens {};
+  lens_4_2 = callPackage ../development/libraries/haskell/lens/4.2.nix {};
+  lens_4_4 = callPackage ../development/libraries/haskell/lens/4.4.nix {};
+  lens = self.lens_4_4;
 
   lensAeson = callPackage ../development/libraries/haskell/lens-aeson {};
 
@@ -2549,6 +2556,7 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
   transformersBase = callPackage ../development/libraries/haskell/transformers-base {};
 
   transformersCompat_0_3_3 = callPackage ../development/libraries/haskell/transformers-compat/0.3.3.nix {};
+  transformersCompat_0_3_3_3 = callPackage ../development/libraries/haskell/transformers-compat/0.3.3.3.nix {};
   transformersCompat_0_3_3_4 = callPackage ../development/libraries/haskell/transformers-compat/0.3.3.4.nix {};
   transformersCompat = self.transformersCompat_0_3_3_4;
 
@@ -2880,6 +2888,8 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
 
   cake3 = callPackage ../development/tools/haskell/cake3 {};
 
+  oldTime_1_1_0_2 = callPackage ../development/libraries/haskell/old-time/1.1.0.2.nix {};
+  oldTime = null; # By default, use the built-in old-time library
   cpphs = callPackage ../development/tools/misc/cpphs {};
 
   DrIFT = callPackage ../development/tools/haskell/DrIFT {};
@@ -3054,6 +3064,19 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
     Cabal = self.Cabal_1_20_0_2;
   };
   cabalInstall = self.cabalInstall_1_20_0_3;
+
+  CabalGhcjs = callPackage ../development/tools/haskell/Cabal-ghcjs {
+    QuickCheck = self.QuickCheck_2_6;
+    testFrameworkQuickcheck2 = self.testFrameworkQuickcheck2.override {
+      QuickCheck = self.QuickCheck_2_6;
+    };
+  };
+  cabalInstallGhcjs = callPackage ../development/tools/haskell/cabal-install-ghcjs {
+    QuickCheck = self.QuickCheck_2_6;
+    testFrameworkQuickcheck2 = self.testFrameworkQuickcheck2.override {
+      QuickCheck = self.QuickCheck_2_6;
+    };
+  };
 
   codex = callPackage ../development/tools/haskell/codex {};
 
