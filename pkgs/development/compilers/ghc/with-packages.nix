@@ -1,7 +1,7 @@
 { stdenv, ghc, packages, buildEnv, makeWrapper, ignoreCollisions ? false }:
 
 # This wrapper works only with GHC 6.12 or later.
-assert stdenv.lib.versionOlder "6.12" ghc.version;
+assert (stdenv.lib.versionOlder "6.12" ghc.version) || (ghc.pname == "ghcjs");
 
 # It's probably a good idea to include the library "ghc-paths" in the
 # compiler environment, because we have a specially patched version of

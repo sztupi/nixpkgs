@@ -245,9 +245,6 @@
   packages_ghcjs =
     let parent = packages_ghc783.override {
           extension = self: super: {
-            ghcjs = super.ghcjs.override {
-              Cabal = packages_ghc783.CabalGhcjs;
-            };
             transformersCompat = super.transformersCompat_0_3_3_3;
             network = super.network_2_6_0_2;
             haddock = super.haddock.override {

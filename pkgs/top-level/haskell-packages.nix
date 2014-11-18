@@ -1494,7 +1494,8 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
 
   lens_4_2 = callPackage ../development/libraries/haskell/lens/4.2.nix {};
   lens_4_4 = callPackage ../development/libraries/haskell/lens/4.4.nix {};
-  lens = self.lens_4_4;
+  lens_4_4_0_2 = callPackage ../development/libraries/haskell/lens/4.4.0.2.nix {};
+  lens = self.lens_4_4_0_2;
 
   lensAeson = callPackage ../development/libraries/haskell/lens-aeson {};
 
@@ -1814,6 +1815,7 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
 
   options = callPackage ../development/libraries/haskell/options {};
 
+  optparseApplicative_0_9_1_1 = callPackage ../development/libraries/haskell/optparse-applicative/0.9.1.1.nix {};
   optparseApplicative_0_10_0 = callPackage ../development/libraries/haskell/optparse-applicative/0.10.0.nix {};
   optparseApplicative_0_11_0_1 = callPackage ../development/libraries/haskell/optparse-applicative/0.11.0.1.nix {};
   optparseApplicative = self.optparseApplicative_0_11_0_1;
@@ -3072,6 +3074,8 @@ self : let callPackage = x : y : modifyPrio (newScope self x y); in
     };
   };
   cabalInstallGhcjs = callPackage ../development/tools/haskell/cabal-install-ghcjs {
+    CabalGhcjs = self.CabalGhcjs;
+    random = self.random_1_0_1_3;
     QuickCheck = self.QuickCheck_2_6;
     testFrameworkQuickcheck2 = self.testFrameworkQuickcheck2.override {
       QuickCheck = self.QuickCheck_2_6;
